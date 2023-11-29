@@ -1,7 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-
+import { Pagination } from '@/components/Pagination';
 import { PostCard } from '@/components/PostCard';
 import { Sidebar } from '@/components/Sidebar';
 
@@ -11,8 +10,6 @@ import { useFetch } from '@/hooks/useFetch';
 import { PaginationPosts } from '@/queries/models/PaginationPosts';
 
 export default function Page({ params }: { params: { page: string } }) {
-  const router = useRouter();
-
   const pagination = process.env.NEXT_PUBLIC_PAGINATION
     ? parseInt(process.env.NEXT_PUBLIC_PAGINATION)
     : 0;
@@ -38,7 +35,8 @@ export default function Page({ params }: { params: { page: string } }) {
             ? data?.postsConnection?.edges.map((post: PaginationPosts) => (
                 <PostCard key={post.node.id} post={post.node} />
               ))
-            : router.push(`/404`)}
+            : null}
+          <Pagination current={page} />
         </div>
         <Sidebar />
       </div>
